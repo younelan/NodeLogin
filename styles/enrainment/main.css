@@ -1,0 +1,143 @@
+body {
+	font: bold 11px/1.5em Verdana;
+	background-color: #000;
+	background-image: url('bbg.gif');
+}
+
+h2 {
+	font: bold 14px Verdana, Arial, Helvetica, sans-serif;
+	color: #000;
+	margin: 0px;
+	padding: 0px 0px 0px 15px;
+}
+img {
+border: none;
+}
+
+pre {
+	border: 1px solid #24618E;
+	background-color: #9DB0BF;
+	width: 80%;
+	padding: 5px;
+	margin: 5px auto;
+}
+
+#container {
+	width: 750px;
+	padding: 0;
+	margin: 0 auto;
+}
+
+/*/////////////////////
+//   Menu         
+/////////////////////*/
+#menu {
+	width: 750px;
+	height: 32px;
+}
+
+/*- Menu Tabs J--------------------------- */
+
+    #tabsJ {
+	float:left;
+	width:750px;
+	font-size:93%;
+	line-height:normal;
+	border-bottom:1px solid #24618E;
+      }
+    #tabsJ ul {
+	  margin:0;
+	  padding:10px 10px 0 50px;
+	  list-style:none;
+      }
+    #tabsJ li {
+      display:inline;
+      margin:0;
+      padding:0;
+      }
+    #tabsJ a {
+      float:left;
+      background:url("tableftJ.gif") no-repeat left top;
+      margin:0;
+      padding:0 0 0 5px;
+      text-decoration:none;
+      }
+    #tabsJ a span {
+      float:left;
+      display:block;
+      background:url("tabrightJ.gif") no-repeat right top;
+      padding:5px 15px 4px 6px;
+      color:#24618E;
+      }
+    /* Commented Backslash Hack hides rule from IE5-Mac \*/
+    #tabsJ a span {float:none;}
+    /* End IE5-Mac hack */
+    #tabsJ a:hover span {
+      color:#FFF;
+      }
+    #tabsJ a:hover {
+      background-position:0% -42px;
+      }
+    #tabsJ a:hover span {
+      background-position:100% -42px;
+      }
+
+/*/////////////////////
+//   Header         
+/////////////////////*/
+#header {
+	background-color: #FFF;
+	background: url('header.jpg') no-repeat left top;
+	width: 750px;
+	height: 183px;
+	border: 1px solid #7593AB;
+}
+#headertext {
+	position: relative;
+	left: 60px;
+	top: 90px;
+	color: #253547;
+	font-size: 2em;
+}
+/*/////////////////////
+//   Main         
+/////////////////////*/
+#middle {
+	background-color: #FFF;
+	background-image: url('wbg.gif');
+	width: 750px;
+	border: 1px solid #7593AB;
+}
+#main {
+	padding: 10px;
+	font: normal 11px/1.5em Verdana;
+}
+/*/////////////////////
+//   Footer         
+/////////////////////*/
+#footer {
+	background-color: transparent;
+	width: 750px;
+	height: 32px;
+	color: #FFF;
+	padding: 5px;
+	font: normal 80% Arial;
+}
+/*/////////////////////
+//   Links         
+/////////////////////*/
+a:link {
+	color: #7593AB;
+}
+a:visted {
+	color: #7593AB;
+}
+a:hover {
+	color: #24618E;
+}
+a:active {
+	color: #7593AB;
+}
+a {
+	color: #7593AB;
+}

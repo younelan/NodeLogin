@@ -1,0 +1,49 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+/* IE10 Consumer Preview */ 
+background-image: -ms-radial-gradient(center, circle farthest-side, #FFFFFF 0%, #EFD9E0 100%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-radial-gradient(center, circle farthest-side, #FFFFFF 0%, #EFD9E0 100%);
+
+/* Opera */ 
+background-image: -o-radial-gradient(center, circle farthest-side, #FFFFFF 0%, #EFD9E0 100%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(radial, center center, 0, center center, 420, color-stop(0, #FFFFFF), color-stop(1, #EFD9E0));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-radial-gradient(center, circle farthest-side, #FFFFFF 0%, #EFD9E0 100%);
+
+/* W3C Markup, IE10 Release Preview */ 
+background-image: radial-gradient(circle farthest-side at center, #FFFFFF 0%, #EFD9E0 100%);
+
+}
+
+a {
+  color: #00B7FF;
+}
+
+#content {
+background-color:#00CCFF
+postition:absolute;
+color:black;
+
+
+}
+#sidebar {
+background-color:#ff0000;
+color:white;
+position:absolute;
+right:0px;
+
+top:0px;
+height:100%;
+width:333;
+}
+#sidebar a:link {color:black}
+#sidebar a:hover {font:darkgreen;font-size:1.3em;}
+#sidebar a:visited {color:brown;size:1.0em}
+
+

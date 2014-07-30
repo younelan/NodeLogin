@@ -1,0 +1,317 @@
+
+
+/******* structure and layout *******/
+body {
+margin:10px 10px 0px 0;
+padding:0px;
+font-family:Arial, Helvetica, sans-serif; 
+font-size: 9pt; 
+color:#000000;
+}
+
+.leftcontent {
+position: absolute;
+left:0px;
+top:126px;
+width:200px;
+background:#ffffff url(left_bg.gif);
+border:none;
+text-align:left;
+}
+
+.left_news {
+position:relative;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:8pt;
+color:#818181;
+margin:0 0 0 0;
+padding:10px 5px 5px 10px;
+width:185px;
+background:#ffffff;
+}
+
+#centercontent {
+background:#ffffff;
+margin-top:10px;
+margin-left: 199px;
+margin-right:199px;
+line-height:1.4em;
+voice-family: "\"}\"";
+voice-family: inherit;
+margin-left: 201px;
+margin-right:201px;
+}
+html>body #centercontent {
+margin-left: 201px;
+margin-right:201px;
+}
+
+#rightcontent {
+position: absolute;
+right:10px;
+top:130px;
+width:200px;
+background:#ffffff;
+border:1px solid #7DB26E;
+}
+
+.right_news {
+position:relative;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:8pt;
+color:#818181;
+margin:0 0 0 0;
+padding:10px 5px 5px 10px;
+width:185px;
+background:#ffffff;
+}
+
+#banner {
+background:#ffffff url(header_bg.gif);
+height:116px;
+border:none;
+voice-family: "\"}\"";
+voice-family: inherit;
+height:39px;
+color:#000000;
+}
+html>body #banner {
+height:116px;
+}
+
+.footer {
+position:relative;
+margin:50px 0 10px 0;
+padding:5px 10px 5px 10px;
+background:#ffffff;
+/* yet another problem with IE, this time with the boder of the footer. The top portion of the border was not showing up in IE, but was fine in the other browsers. Although i know it's bad form to say "screw it", i'm saying it anyway because i really don't want to take the time to work around yet another IE bug. */
+border:1px solid #ffffff;
+text-align:center;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:8pt;
+color:#B7D7AF;
+}
+
+.page_title {
+position:absolute;
+top:53px;
+left:175px;
+margin:0 0 0 0;
+padding:0 0 0 0;
+}
+
+.top_links {
+/* i positioned the top links absolutely within the banner area because of a problem i saw in IE when i did a float-right, and i didn't want to take the time to figure it out. Anyway, this isn't a problem until you add more links to the top nav or edit the text links. If/when you do, you'll have to adjust the position of the area by moving it right or left. 600px isthe default */
+position:absolute;
+top:10px;
+left:600px;
+margin:0 0 0 0;
+padding:0 0 0 0;
+}
+
+p,h1,pre {
+margin:0px 10px 10px 10px;
+}
+
+#rightcontent p {
+font-size:8pt;
+}
+
+/******* left navigation *******/
+#nav ul {
+margin:10px 0 10px 5px;
+padding:0 0 0 0;
+background:transparent;
+}
+
+#nav li {
+list-style-type: none;
+background:#B7D7AF;
+color: #daa520;
+border:1px solid #7DB26E;
+text-align:left;
+padding:0 0 0 0;
+margin-bottom:6px;
+}
+
+#nav li a {
+color: #ffffff;
+font-weight:bold;
+text-decoration: none;
+display: block;
+padding:2px 0 2px 5px;
+}
+
+#nav li a:hover {
+background:#ffffff;
+color: #7F9BC5;
+}
+
+
+#nav li a:hover:after {
+/* this puts that little blue box after the left navigation links on hover */
+background:#ffffff;
+color: #7F9BC5;
+content: url(square.gif)
+}
+
+/******* top navigation *******/
+#topnav ul{
+padding:0 0 0 0;
+margin:0 5px 0 0;
+white-space: nowrap;
+font-size:7pt;
+color:#ffffff;
+float:left;
+width:100%;
+background:transparent;
+list-style:none;
+}
+
+#topnav ul li{
+display:inline;
+list-style:none;
+}
+
+#topnav ul li a{
+margin: 0 5px 0 0;
+padding: .2em 1em .2em 1em;
+background:#B7D7AF;
+color: #000000;
+font-weight:bold;
+text-decoration:none;
+float: left;
+border:2px solid #ffffff;
+}
+
+#topnav ul li a:hover{
+background:#7DB26E;
+color: #ffffff;
+text-decoration:none;
+border:2px solid #ffffff;
+}
+
+/******* fonts and colors *******/
+a {
+color:#699065;
+text-decoration:underline;
+}
+
+a:hover {
+color:#999999;
+text-decoration:none;
+}
+
+#footer a {
+color:#B7D7AF;
+text-decoration:underline;
+}
+
+#footer a:hover {
+color:#999999;
+text-decoration:none;
+}
+
+.news_title {
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:9pt;
+font-weight:bold;
+color:#7F9BC5;
+}
+
+.news_title_grn {
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:10pt;
+font-weight:bold;
+color:#6C9261;
+}
+
+#page_title {
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:15pt;
+color:#7F9BC5;
+text-transform:uppercase;
+}
+
+span.squares {
+display:block;
+float:left;
+width:18px;
+height:18px;
+margin-right:2px;
+background-image:url(squares.gif);
+background-repeat:no-repeat;
+}
+
+span.squares span {display:none;}
+
+
+blockquote {
+padding:10px 10px 15px 10px;
+background:#E5ECF7;
+border-left:2px solid #C7D9F5;
+font-style:italic;
+color:#6B84A8;
+letter-spacing:.1em;
+}
+
+h1 {
+font-size:14px;
+padding-top:10px;
+}
+
+#banner h1 {
+font-size:14px;
+padding:10px 10px 0px 10px;
+margin:0px;
+}
+
+/******* lists *******/
+
+#list ul {
+margin:0 0 0 0;
+padding:0 0 0 0;
+list-style:none;
+}
+
+#list li {
+margin:.5em 0 0 0;
+padding:0 0 0 15px;
+list-style:none;
+background: url(square_list.gif) no-repeat;
+background-position: 0 .3em;
+}
+
+#list li.sub {
+margin:.5em 0 0 .5em;
+padding:0 0 0 15px;
+list-style:none;
+background: url(square_list2.gif) no-repeat;
+background-position: 0 .3em;
+}
+
+
+/******* images *******/
+img {
+border:none;
+}
+
+.center {
+text-align:center;
+}
+
+/******* workarounds and hacks *******/
+.clearfix:after {
+content: "."; 
+display: block; 
+height: 0; 
+clear: both; 
+visibility: hidden;
+}
+
+.clearfix {display: inline-table;}
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */
