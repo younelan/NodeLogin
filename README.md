@@ -30,8 +30,8 @@ This is by no means complete but should give you an idea to get started with for
 - **styles/** those are themes that can be swapped for a different view
 - **config/** - json config file
 
-##Licence
+## Licence
 
 MIT License... Basically do whatever you want with it as long as you keep the license file
 
-have fun
+**Be cool, Redefine limits, have fun**
