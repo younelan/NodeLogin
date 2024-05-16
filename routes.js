@@ -1,7 +1,7 @@
 import fs  from 'fs';
 import path from 'path';
-import myuser from './user.js';
-
+import { MongoUser } from './user.js';
+const myuser = new MongoUser();
 
 import templateHelper from "./template_helper.js";
 import FormHelper from "./form_helper.js";
@@ -63,7 +63,7 @@ class Routes {
 		}
 	}
 
-	async showForm(req, res) {
+	async showForm(req, res,body) {
 		try {
 		const userInfo = {};
 		const myvars = {
@@ -126,7 +126,7 @@ class Routes {
 		try {
 		const myvars = {
 			sidebar1: 'Welcome to the community. You have been successfully added to the database, enjoy being with us',
-			content: templateHelper.render('includes/registersuccess.html', userInfo),
+			content: templateHelper.render('views/registersuccess.html', userInfo),
 			sidebar1_title: '',
 			sidebar2_title: '',
 			sidebar2: (function () {
@@ -154,7 +154,7 @@ class Routes {
 		try {
 		const myvars = {
 			sidebar1: '<ul>' + SiteConfig.main_menu + '</ul>',
-			content: templateHelper.render('includes/memberpage.html', params),
+			content: templateHelper.render('views/memberpage.html', params),
 			sidebar1_title: '',
 			sidebar2_title: '',
 			utility_menu: SiteConfig.utility_menu,
@@ -182,38 +182,49 @@ class Routes {
 
 	async listUsers(req, res) {
 		try {
-		const content = await myuser.listUsers();
-		this.showPage(req, res, { content });
+			content="";
+			const users = await myuser.listUsers();
+			users.forEach(user => {
+					content += `<li>${user.firstname} ${user.lastname}</li>\n`;
+			});
+
+			this.showPage(req, res, { content });
 		} catch (error) {
-		console.error("Error occurred in listUsers route:", error);
-		// Handle error
+			console.error("Error occurred in listUsers route:", error);
+			// Handle error
 		}
 	}
 	
 
-	// loginUser method
-	async loginUser(req, res) {
-		const { usrLogin, usrPassword } = req.body;
-		
-		// Check if usrLogin is an email or username
-		if (FormHelper.isEmail(usrLogin) || FormHelper.isUsername(usrLogin)) {
-			// Proceed with login logic
-			const isLoggedIn = myuser.findUser({ login: usrLogin, password: usrPassword }, function(isLoggedIn) {
-				if (isLoggedIn) {
-					showMemberArea(req, res, isLoggedIn);
-					req.session.user = isLoggedIn;
-					res.redirect('/');
-				} else {
-					showLogin(req, res);
-				}
-			});
-		} else {
-			// Invalid usrLogin format, show login page
-			showLogin(req, res);
-		}
-	};
-	
-	
+// loginUser method
+async loginUser(req, res) {
+    console.log("Hello from login");
+    const { usrLogin, usrPassword } = req.body;
+
+    // Check if usrLogin is an email or username
+    if (FormHelper.isEmail(usrLogin) || FormHelper.isUsername(usrLogin)) {
+        try {
+            // Proceed with login logic
+            const isLoggedIn = await myuser.findUser({ login: usrLogin, password: usrPassword });
+
+            if (isLoggedIn) {
+                // Set session user and redirect to home page
+                req.session.user = isLoggedIn;
+                res.redirect('/');
+            } else {
+                // User not found, show login page
+                this.showLogin(req, res);
+            }
+        } catch (error) {
+            console.error("Error occurred during login:", error);
+            res.status(500).send("Internal Server Error");
+        }
+    } else {
+        // Invalid usrLogin format, show login page
+        this.showLogin(req, res);
+    }
+};
+
 
 	async logoffUser(req, res) {
 		try {
@@ -275,20 +286,20 @@ class Routes {
 	
 		if (userInfo['email'] && userInfo['login'] && userInfo['firstname'] && userInfo['lastname'] && userInfo['password'].length > 5) {
 			console.log("adding user");
-			myuser.addUser({ login: userInfo['login'], email: userInfo['email'], firstname: userInfo['firstname'], lastname: userInfo['lastname'], password: userInfo['password'] },
-				function() {
-					showRegisterSuccess(req, res, req.body);
+			myuser.addUser({ login: userInfo['login'], email: userInfo['email'], firstname: userInfo['firstname'], lastname: userInfo['lastname'], password: userInfo['password'] , confirm: userInfo['confirm']},
+				() => {
+					this.showRegisterSuccess(req, res, req.body);
 					console.log("success in add");
 				},
-				function() {
-					showForm(req, res, req.body);
+				() => {
+					this.showForm(req, res, req.body);
 				}
 			);
 		} else {
 			console.log("Failed validation");
 		}
 	}
-			
+				
 	/** function registerForm 
 	 * this function shows a form to register a new user
 	 */

@@ -4,6 +4,7 @@ import session from 'express-session';
 import path from 'path'
 import { json, urlencoded } from 'express';
 import cookieParser from 'cookie-parser';
+import morgan from 'morgan';
 
 const app = express();
 const routes = new Routes();
@@ -15,6 +16,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
+app.use(morgan('dev'));
 app.use('/res',express.static(__dirname + '/res/'));
 //app.use(express.urlencoded({ extended: true }));
 app.use(json());
@@ -26,6 +28,7 @@ app.get('/', (req, res) => routes.index(req, res));
 
 // Change the active theme
 app.get('/styles/:theme/:file', (req, res) => routes.styles(req, res));
+//app.use(express.favicon());
 
 // For demo purpose, anyone can change the theme
 app.get('/settheme/:theme', (req, res) => routes.setTheme(req, res));
@@ -38,6 +41,7 @@ app.post('/register', (req, res) => routes.registerUser(req, res));
 
 // Process login form
 app.post('/login', (req, res) => routes.loginUser(req, res));
+//app.get('/login', (req, res) => routes.loginUser(req, res));
 
 // Process logoff request
 app.get('/logoff', (req, res) => routes.logoffUser(req, res));
