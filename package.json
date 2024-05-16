@@ -1,12 +1,23 @@
 {
-  "name": "yan-social-net",
-  "version": "0.0.2",
-  "private": true,
+  "name": "express-auth-app",
+  "version": "1.0.0",
+  "description": "A basic Express application with authentication and form handling",
+  "main": "app.js",
   "scripts": {
-    "start": "node app"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "dependencies": {
-    "express": "3.11.0",
-    "jade": "*"
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "mongoose": "^8.3.5",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }
