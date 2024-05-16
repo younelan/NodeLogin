@@ -1,21 +1,30 @@
-const fs = require("fs");
-const { myuser } = require("./user");
-const { templateHelper } = require("./template_helper");
-const formHelper = require("./form_helper");
+import fs  from 'fs';
+import path from 'path';
+import myuser from './user.js';
+
+
+import templateHelper from "./template_helper.js";
+import FormHelper from "./form_helper.js";
+
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
+const siteConfigPath = path.join(__dirname, 'config', 'siteConfig.json');
+const siteConfigRaw = fs.readFileSync(siteConfigPath);
+const SiteConfig = JSON.parse(siteConfigRaw);
 
 //const { UserManager } = require("./userManager");
 
 class Routes {
 	constructor() {
 		//this.userManager = new UserManager(); // Initialize UserManager instance
-		this.userManager = new MongoDB
+		//this.userManager = new MongoDB
 	}
 
 	async index(req, res) {
 		try {
-		req.session.visitCount = req.session.visitCount ? req.session.visitCount + 1 : 1;
-		console.log(req.session.visitCount);
-		console.log(req.session.user);
+			req.session.visitCount = req.session.visitCount ? req.session.visitCount + 1 : 1;
+			console.log(req.session.visitCount);
+				console.log(req.session.user);
 		if (req.session.user) {
 			this.showMemberArea(req, res);
 		} else {
@@ -182,22 +191,28 @@ class Routes {
 	}
 	
 
+	// loginUser method
 	async loginUser(req, res) {
-		try {
-		const isLoggedIn = await myuser.findUser({ login: req.body.usrLogin, password: req.body.usrPassword });
-		if (isLoggedIn) {
-			this.showMemberArea(req, res, isLoggedIn);
-			req.session.user = isLoggedIn;
-			res.writeHead(301, { Location: '/' });
-			res.end();
+		const { usrLogin, usrPassword } = req.body;
+		
+		// Check if usrLogin is an email or username
+		if (FormHelper.isEmail(usrLogin) || FormHelper.isUsername(usrLogin)) {
+			// Proceed with login logic
+			const isLoggedIn = myuser.findUser({ login: usrLogin, password: usrPassword }, function(isLoggedIn) {
+				if (isLoggedIn) {
+					showMemberArea(req, res, isLoggedIn);
+					req.session.user = isLoggedIn;
+					res.redirect('/');
+				} else {
+					showLogin(req, res);
+				}
+			});
 		} else {
-			this.showLogin(req, res);
+			// Invalid usrLogin format, show login page
+			showLogin(req, res);
 		}
-		} catch (error) {
-		console.error("Error occurred in loginUser route:", error);
-		// Handle error
-		}
-	}
+	};
+	
 	
 
 	async logoffUser(req, res) {
@@ -207,66 +222,73 @@ class Routes {
 			this.showLogin(req, res);
 			
 		} catch (error) {
-		console.error("Error occurred in logoffUser route:", error);
-		// Handle error
+			console.error("Error occurred in logoffUser route:", error);
+			// Handle error
 		}
 	}
 
-	registerUser(req, res) {
+
+	async registerUser(req, res) {
 		const userInfo = {};
+	
 		const userFields = {
-		'firstname': 'name',
-		'lastname': 'name',
-		'email': 'email',
-		'login': 'username',
-		'password': 'password'
+			'firstname': 'name',
+			'lastname': 'name',
+			'email': 'email',
+			'login': 'username',
+			'password': 'password'
 		};
 	
 		for (const field in userFields) {
-		const fieldType = userFields[field];
-		const fieldValue = req.body[field] || '';
-		switch (fieldType) {
-			case 'name':
-			case 'password':
-			case 'string':
-			userInfo[field] = fieldValue;
-			break;
-			case 'number':
-			const isValidNumber = form_validation.isNumber(fieldValue);
-			isValidNumber ? userInfo[field] = fieldValue : userInfo[field] = '';
-			break;
-			case 'username':
-			const isValidUsername = form_validation.isUsername(fieldValue);
-			isValidUsername ? userInfo[field] = fieldValue : userInfo[field] = '';
-			break;
-			case 'email':
-			const isValidEmail = form_validation.isEmail(fieldValue);
-			isValidEmail ? userInfo[field] = fieldValue : userInfo[field] = '';
-			break;
-		}
+			const fieldType = userFields[field];
+			const fieldValue = req.body[field] || '';
+			console.log(field + " " + fieldType + " " + fieldValue)
+			switch (fieldType) {
+				case 'name':
+				case 'password':
+				case 'string':
+					userInfo[field] = fieldValue;
+					break;
+				case 'number':
+					const isValidNumber = FormHelper.isNumber(fieldValue);
+					if (isValidNumber) {
+						userInfo[field] = fieldValue;
+					}
+					break;
+				case 'username':
+					const isValidUsername = FormHelper.isUsername(fieldValue);
+					if (isValidUsername) {
+						userInfo[field] = fieldValue;
+					}
+					break;
+				case 'email':
+					const isValidEmail = FormHelper.isEmail(fieldValue);
+					if (isValidEmail) {
+						userInfo[field] = fieldValue;
+					}
+					break;
+			}
 		}
 	
-		userInfo['confirm'] = form_validation.getRandomString();
+		const confirmationCode = FormHelper.getRandomString();
+		userInfo['confirm'] = confirmationCode;
 	
 		if (userInfo['email'] && userInfo['login'] && userInfo['firstname'] && userInfo['lastname'] && userInfo['password'].length > 5) {
-		console.log('Adding user');
-		myuser.addUser({
-			login: userInfo['login'],
-			email: userInfo['email'],
-			firstname: userInfo['firstname'],
-			lastname: userInfo['lastname'],
-			password: userInfo['password']
-		}, () => {
-			this.showRegisterSuccess(req, res, req.body);
-			console.log('Success in adding user');
-		}, () => {
-			this.showForm(req, res, req.body);
-		});
+			console.log("adding user");
+			myuser.addUser({ login: userInfo['login'], email: userInfo['email'], firstname: userInfo['firstname'], lastname: userInfo['lastname'], password: userInfo['password'] },
+				function() {
+					showRegisterSuccess(req, res, req.body);
+					console.log("success in add");
+				},
+				function() {
+					showForm(req, res, req.body);
+				}
+			);
 		} else {
-		console.log('Failed validation');
+			console.log("Failed validation");
 		}
 	}
-	
+			
 	/** function registerForm 
 	 * this function shows a form to register a new user
 	 */
@@ -286,14 +308,14 @@ class Routes {
 	 * this function changes the current theme - obviously this is open for demo purposes
 	 */
 	setTheme(req, res) {
-		if (template.activeThemes.hasOwnProperty(req.params.theme)) {
-		template.setTheme(req.params.theme);
+		if (templateHelper.activeThemes.hasOwnProperty(req.params.theme)) {
+		templateHelper.setTheme(req.params.theme);
 		}
 		this.index(req, res);
 	}
   
     // Static method to serve static files
-    static styles(req, res) {
+    async styles(req, res) {
         const extensions = {
             'txt': 'text/plain',
             'swf': 'application/x-shockwave-flash',
@@ -306,7 +328,7 @@ class Routes {
         };
 
         let myTheme;
-        if (template.activeThemes.hasOwnProperty(req.params.theme)) {
+        if (templateHelper.activeThemes.hasOwnProperty(req.params.theme)) {
             myTheme = req.params.theme;
         } else {
             res.end('<h1>File not available</h1>Something went wrong');
@@ -315,6 +337,7 @@ class Routes {
 
         const filename = req.params.file;
         const fileExtension = filename.split('.').pop();
+		console.log(fileExtension) + " " + filename + "\n"
         const mimeType = extensions[fileExtension];
 
         if (mimeType) {
@@ -335,4 +358,4 @@ class Routes {
 
 }
 
-module.exports = { Routes };
+export default Routes

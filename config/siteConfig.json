@@ -1,0 +1,7 @@
+{
+  "site_name": "Social Fun Zone",
+  "site_motto": "Bringing people together",
+  "utility_menu": "<li><a href='/profile'>Profile</a></li><li><a href='/logoff'>Log off</a></li>",
+  "main_menu": "<li><a href='/'>Home</a></li><li><a href='/people'>People</a></li><li><a href='/messages'>Messages</a></li>"
+}
+

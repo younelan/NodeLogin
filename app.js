@@ -1,30 +1,55 @@
-const express = require('express');
-const session = require('express-session');
-const bodyParser = require('body-parser');
-const routes = require('./routes');
+import express from 'express';
+import Routes from './routes.js';
+import session from 'express-session';
+import path from 'path'
+import { json, urlencoded } from 'express';
+import cookieParser from 'cookie-parser';
 
 const app = express();
+const routes = new Routes();
+
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 app.use(session({
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: false
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: false
 }));
+app.use('/res',express.static(__dirname + '/res/'));
+//app.use(express.urlencoded({ extended: true }));
+app.use(json());
+app.use(urlencoded({ extended: true }));
+app.use(cookieParser());
 
-app.use(bodyParser.urlencoded({ extended: false }));
+// Main page
+app.get('/', (req, res) => routes.index(req, res));
 
-app.set('view engine', 'pug');
-app.set('views', `${__dirname}/views`);
+// Change the active theme
+app.get('/styles/:theme/:file', (req, res) => routes.styles(req, res));
 
-app.get('/', routes.index);
-app.get('/styles/:theme/:file', routes.styles);
-app.get('/settheme/:theme', routes.setTheme);
-app.get('/register', routes.registerForm);
-app.post('/register', routes.registerUser);
-app.post('/login', routes.loginUser);
-app.get('/logoff', routes.logoffUser);
-app.get('/people', routes.listUsers);
-app.get('/profile', routes.listUsers);
+// For demo purpose, anyone can change the theme
+app.get('/settheme/:theme', (req, res) => routes.setTheme(req, res));
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+// Show the register form
+app.get('/register', (req, res) => routes.registerForm(req, res));
+
+// Process the register form
+app.post('/register', (req, res) => routes.registerUser(req, res));
+
+// Process login form
+app.post('/login', (req, res) => routes.loginUser(req, res));
+
+// Process logoff request
+app.get('/logoff', (req, res) => routes.logoffUser(req, res));
+
+// Show a list of users
+app.get('/people', (req, res) => routes.listUsers(req, res));
+
+// Show individual profile for now routes to people list
+app.get('/profile', (req, res) => routes.listUsers(req, res));
+
+// Start the server
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});

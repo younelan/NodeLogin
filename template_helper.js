@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 const templateHelper = {
     currentTheme: 'funzone',
@@ -21,4 +21,4 @@ const templateHelper = {
     }
 };
 
-module.exports = templateHelper;
+export default templateHelper;

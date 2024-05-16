@@ -37,3 +37,5 @@ class MongoUser {
 }
 
 const myuser = new MongoUser();
+
+export default myuser
