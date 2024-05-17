@@ -1,0 +1,33 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #eee ;
+  color: white;
+
+}
+
+a {
+  color: #00B7FF;
+}
+
+#content {
+background-color:#00CCFF
+postition:absolute;
+color:black;
+
+
+}
+#sidebar {
+  background-color: black;
+  color:white;
+  position:absolute;
+  right:0px;
+padding-left: 20px;
+top:0px;
+height:100%;
+min-width:333px;
+}
+#sidebar a:link {color:#EEE230; padding:20px;padding-top:3px;padding-bottom:3px;line-height:1.2}
+#sidebar a:hover {background-color:#333;color:white}
+#sidebar a:visited {color: #FFF340}
+
+

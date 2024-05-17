@@ -1,0 +1,233 @@
+/* General reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    font-family: 'Noto Serif', serif;
+    background: url(bgblue.gif);
+    color: white;
+    padding: 0 20px;
+}
+
+body {
+    background-color: #000;
+    background: url(bg.png) top repeat-x;
+    overflow: auto;
+}
+
+/* Wrapper */
+#wrapper {
+    max-width: 950px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: white;
+    color: black;
+    box-shadow: 3px 6px 15px 6px #310;
+    font-size: 1em;
+    overflow: hidden; /* Ensure the wrapper contains floated elements */
+}
+
+/* Navigation */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+	background-color: #283b7a;
+	padding: 5px;
+    margin-bottom: 0px;
+}
+
+.nav, .leftnav {
+    display: flex;
+    align-items: center;
+}
+
+.nav ul, .leftnav ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav li, .leftnav li {
+    margin: 0 10px;
+    border-left: 1px dotted #ccc;
+}
+
+.nav li:first-child, .leftnav li:first-child {
+    border-left: none;
+}
+
+.nav li a, .leftnav li a {
+    padding: 10px;
+    text-decoration: none;
+    color: #fff;
+    display: block;
+    background-color: #ac4c4c; /* Red color */
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.nav li a:hover, .leftnav li a:hover {
+    background-color: #923b92; /* Lighter red color on hover */
+}
+
+/* Header */
+.topdiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #3b5998;
+    padding: 20px;
+    color: white;
+}
+
+.topdivText {
+    text-align: left;
+}
+
+.topdivText a {
+    color: white;
+    text-decoration: none;
+}
+
+.topdivText a:hover {
+    background-color: white;
+    color: #3b5998;
+}
+
+.siteTitle {
+    font-size: 2.5em;
+}
+
+.siteMotto {
+    font-size: 1.2em;
+}
+
+/* Banner and Slideshow */
+#banner {
+    width: 100%;
+}
+
+#slideshow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#slideshow div {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #ffeecc;
+    color: black;
+    width: 100%;
+    text-align: center;
+}
+
+/* Content and Sidebar */
+#content {
+    float: left;
+    width: 65%; /* Adjust width to accommodate sidebar */
+    padding-right: 20px;
+}
+
+.sidebarDiv {
+    float: right;
+    width: 30%;
+	background-color: #ced9f1;
+	padding: 4px;
+	border-radius: 5px;
+}
+
+.sidebarTitle, .sidebartitleWrapper {
+    background-color: #444;
+    background-image: linear-gradient(to bottom,#0b1e3c, #3f46a6);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* Sidebar */
+.sidebarDiv ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebarDiv li {
+    background-color: #7f408c; /* Red color */
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebarDiv li a {
+    text-decoration: none;
+    color: #fff;
+    display: block;
+}
+
+.sidebarDiv li:hover {
+    background-color: #662d55; /* Lighter red color on hover */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+    }
+
+    .nav, .leftnav {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .nav ul, .leftnav ul {
+        flex-direction: column;
+    }
+
+    .nav li, .leftnav li {
+        margin: 5px 0;
+        border-left: none;
+        border-bottom: 1px dotted #ccc;
+        width: 100%;
+        text-align: center;
+    }
+
+    .topdiv {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    #content, .sidebarDiv {
+        width: 100%;
+        margin: 10px 0;
+        float: none;
+    }
+
+    #banner {
+        width: 100%;
+    }
+
+    #slideshow {
+        width: 100%;
+    }
+
+    #slideshow div {
+        width: 100%;
+    }
+}
+
+/* Images */
+img {
+    max-width: 100%;
+    height: auto;
+}

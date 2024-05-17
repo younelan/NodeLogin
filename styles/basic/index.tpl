@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="/res/stylesheets/screen.css">
+<link rel="stylesheet" href="{themepath}/screen.css">
 <body>
 <div id=sidebar>
 
-
-<img src=/res/banner.jpg>
+<h1>{site_name}</h1>
+{site_motto}
 
 <br>
 {sidebar1}

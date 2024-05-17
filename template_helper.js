@@ -1,14 +1,12 @@
 import fs from 'fs';
 
 const templateHelper = {
-    currentTheme: 'funzone',
+    currentTheme: 'bluezone',
     activeThemes: {
-        'funzone': 'Fun Zone theme',
-        'bubbly_goodness': 'Bubbly goodness',
-        'doctors_office': "Doctor's office",
-        'uncomplicated': 'Uncomplicated',
-        'enrainment': 'Enrainment',
-        'yan': 'Yan Default theme'
+        'bluezone': 'Blue Zone',
+        'BootstrapLight': "Bootstrap Light",
+        'BootstrapDark': "Bootstrap Dark",
+        'basic': 'Basic Theme'
     },
     
     render(htmlfile, myvars) {
