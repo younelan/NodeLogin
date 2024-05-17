@@ -27,7 +27,7 @@ This is by no means complete but should give you an idea to get started with for
 - **routes.js** - kind of a controller class decides what pages to show/handles auth
 - **res/** contains all graphics/ html pages
 - **views/** contains views like login form, member text, welcome page...
-- **styles/** those are themes that can be swapped for a different view
+- **themes/** those are themes that can be swapped for a different view
 - **config/** - json config file
 
 ## Licence

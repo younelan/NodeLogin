@@ -50,12 +50,12 @@ class Routes {
 			}
 			return sidebar2;
 			})(),
-			themepath: '/styles/' + templateHelper.currentTheme,
+			themepath: '/themes/' + templateHelper.currentTheme,
 			site_name: SiteConfig.site_name,
 			site_motto: SiteConfig.site_motto,
 		};
 
-		const view = templateHelper.render('styles/' + templateHelper.currentTheme + '/index.tpl', myvars);
+		const view = templateHelper.render('themes/' + templateHelper.currentTheme + '/index.tpl', myvars);
 		res.end(view);
 		} catch (error) {
 			console.error("Error occurred in showLogin route:", error);
@@ -78,12 +78,12 @@ class Routes {
 			}
 			return sidebar2;
 			})(),
-			themepath: '/styles/' + templateHelper.currentTheme,
+			themepath: '/themes/' + templateHelper.currentTheme,
 			site_name: SiteConfig.site_name,
 			site_motto: SiteConfig.site_motto,
 		};
 	
-		const view = templateHelper.render('styles/' + templateHelper.currentTheme + '/index.tpl', myvars);
+		const view = templateHelper.render('themes/' + templateHelper.currentTheme + '/index.tpl', myvars);
 		res.end(view);
 		} catch (error) {
 		console.error("Error occurred in showForm route:", error);
@@ -108,12 +108,12 @@ class Routes {
 			}
 			return sidebar2;
 			})(),
-			themepath: '/styles/' + templateHelper.currentTheme,
+			themepath: '/themes/' + templateHelper.currentTheme,
 			site_name: SiteConfig.site_name,
 			site_motto: SiteConfig.site_motto,
 		};
 
-		const view = templateHelper.render('styles/' + templateHelper.currentTheme + '/index.tpl', myvars);
+		const view = templateHelper.render('themes/' + templateHelper.currentTheme + '/index.tpl', myvars);
 		res.end(view);
 		} catch (error) {
 		console.error("Error occurred in showMemberArea route:", error);
@@ -136,12 +136,12 @@ class Routes {
 			}
 			return sidebar2;
 			})(),
-			themepath: '/styles/' + templateHelper.currentTheme,
+			themepath: '/themes/' + templateHelper.currentTheme,
 			site_name: SiteConfig.site_name,
 			site_motto: SiteConfig.site_motto,
 		};
 	
-		const view = templateHelper.render('styles/' + templateHelper.currentTheme + '/index.tpl', myvars);
+		const view = templateHelper.render('themes/' + templateHelper.currentTheme + '/index.tpl', myvars);
 		res.end(view);
 		} catch (error) {
 		console.error("Error occurred in showRegisterSuccess route:", error);
@@ -166,12 +166,12 @@ class Routes {
 			}
 			return sidebar2;
 			})(),
-			themepath: '/styles/' + templateHelper.currentTheme,
+			themepath: '/themes/' + templateHelper.currentTheme,
 			site_name: SiteConfig.site_name,
 			site_motto: SiteConfig.site_motto,
 		};
 	
-		const view = templateHelper.render('styles/' + templateHelper.currentTheme + '/index.tpl', myvars);
+		const view = templateHelper.render('themes/' + templateHelper.currentTheme + '/index.tpl', myvars);
 		res.end(view);
 		} catch (error) {
 		console.error("Error occurred in showPage route:", error);
@@ -326,7 +326,7 @@ async loginUser(req, res) {
 	}
   
     // Static method to serve static files
-    async styles(req, res) {
+    async themes(req, res) {
         const extensions = {
             'txt': 'text/plain',
             'swf': 'application/x-shockwave-flash',
@@ -352,10 +352,10 @@ async loginUser(req, res) {
         const mimeType = extensions[fileExtension];
 
         if (mimeType) {
-            fs.readFile(`styles/${myTheme}/${filename}`, "binary", function(err, file) {
+            fs.readFile(`themes/${myTheme}/${filename}`, "binary", function(err, file) {
                 if (err) {
-                    res.writeHead(500, { "Content-Type": "text/html" });
-                    res.end(`<h1>File not available</h1>Something went wrong<br>\nTried to get : styles/${myTheme}/${filename}`);
+                    res.writeHead(404, { "Content-Type": "text/html" });
+                    res.end(`<h1>File not available</h1>Something went wrong<br>\nTried to get : themes/${myTheme}/${filename}`);
                     return;
                 }
                 res.writeHead(200, { "Content-Type": mimeType });

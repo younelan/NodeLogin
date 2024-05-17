@@ -27,7 +27,7 @@ app.use(cookieParser());
 app.get('/', (req, res) => routes.index(req, res));
 
 // Change the active theme
-app.get('/styles/:theme/:file', (req, res) => routes.styles(req, res));
+app.get('/themes/:theme/:file', (req, res) => routes.themes(req, res));
 //app.use(express.favicon());
 
 // For demo purpose, anyone can change the theme
