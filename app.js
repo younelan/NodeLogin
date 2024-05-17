@@ -22,6 +22,7 @@ app.use('/res',express.static(__dirname + '/res/'));
 app.use(json());
 app.use(urlencoded({ extended: true }));
 app.use(cookieParser());
+app.get('/favicon.ico', (req, res) => res.status(204));
 
 // Main page
 app.get('/', (req, res) => routes.index(req, res));
