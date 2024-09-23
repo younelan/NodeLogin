@@ -239,7 +239,7 @@ class Routes {
 			'email': 'email',
 			'login': 'username',
 			'password': 'password'
-		};	
+		};
 
 		for (const field in userFields) {
 			const fieldType = userFields[field];
@@ -274,79 +274,95 @@ class Routes {
 
 		const confirmationCode = FormHelper.getRandomString();
 		userInfo['confirm'] = confirmationCode;
-		
+
 		if (userInfo['email'] && userInfo['login'] && userInfo['firstname'] && userInfo['lastname'] && userInfo['password'].length > 5) {
-		console.log("adding user");
-		myuser.addUser({ login: userInfo['login'], email: userInfo['email'], firstname: userInfo['firstname'], lastname: userInfo['lastname'], password: userInfo['password'], confirm: userInfo['confirm'] },
-		async () => {
-		await this.showRegisterSuccess(ctx, ctx.request.body);
-		console.log("success in add");
-		},
-		async () => {
-		await this.showForm(ctx, ctx.request.body);
-		}
-		);
+			console.log("adding user");
+			myuser.addUser({ login: userInfo['login'], email: userInfo['email'], firstname: userInfo['firstname'], lastname: userInfo['lastname'], password: userInfo['password'], confirm: userInfo['confirm'] },
+				async () => {
+					await this.showRegisterSuccess(ctx, ctx.request.body);
+					console.log("success in add");
+				},
+				async () => {
+					await this.showForm(ctx, ctx.request.body);
+				}
+			);
 		} else {
-		console.log("Failed validation");
-		await this.showForm(ctx, ctx.request.body);
+			console.log("Failed validation");
+			await this.showForm(ctx, ctx.request.body);
 		}
-		}
-		
-		async registerForm(ctx) {
+	}
+
+	async registerForm(ctx) {
 		try {
-		const userInfo = {};
-		await this.showForm(ctx, userInfo);
+			const userInfo = {};
+			await this.showForm(ctx, userInfo);
 		} catch (error) {
-		console.error("Error occurred in registerForm route:", error);
-		// Handle error
+			console.error("Error occurred in registerForm route:", error);
+			// Handle error
 		}
-		}
-		
-		setTheme(ctx) {
+	}
+
+	setTheme(ctx) {
 		if (templateHelper.activeThemes.hasOwnProperty(ctx.params.theme)) {
-		templateHelper.setTheme(ctx.params.theme);
+			templateHelper.setTheme(ctx.params.theme);
 		}
 		this.index(ctx);
-		}
-		
-		async themes(ctx) {
+	}
+
+	async themes(ctx) {
+		console.log("hello from theme");
+		console.log(ctx.params);	
 		const extensions = {
-		'txt': 'text/plain',
-		'swf': 'application/x-shockwave-flash',
-		'jpg': 'image/jpeg',
-		'gif': 'image/gif',
-		'png': 'image/png',
-		'jpeg': 'image/jpeg',
-		'css': 'text/css',
-		'js': 'text/javascript'
+			'txt': 'text/plain',
+			'swf': 'application/x-shockwave-flash',
+			'jpg': 'image/jpeg',
+			'gif': 'image/gif',
+			'png': 'image/png',
+			'jpeg': 'image/jpeg',
+			'css': 'text/css',
+			'js': 'text/javascript'
 		};
-		
+
 		let myTheme;
 		if (templateHelper.activeThemes.hasOwnProperty(ctx.params.theme)) {
-		myTheme = ctx.params.theme;
+			myTheme = ctx.params.theme;
 		} else {
-		ctx.body = '<h1>File not available</h1>Something went wrong';
-		return;
+			ctx.body = '<h1>File not available</h1>Something went wrong';
+			return;
 		}
-		
+
 		const filename = ctx.params.file;
 		const fileExtension = filename.split('.').pop();
 		console.log(fileExtension + " " + filename + "\n");
 		const mimeType = extensions[fileExtension];
-		
+		const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
 		if (mimeType) {
-		fs.readFile(`themes/${myTheme}/${filename}`, "binary", function(err, file) {
-		if (err) {
-		ctx.status = 404;
-		ctx.body = `<h1>File not available</h1>Something went wrong<br>\nTried to get : themes/${myTheme}/${filename}`;
-		return;
+			console.log(`${__dirname}/themes/${myTheme}/${filename}`);
+			try {
+				const fileData = await fs.promises.readFile(`${__dirname}/themes/${myTheme}/${filename}`, "binary");
+				ctx.type = mimeType;
+				ctx.body = fileData;
+			} catch (err) {
+				console.error("Error reading file:", err);
+				ctx.status = 404;
+				ctx.body = `<h1>File not available</h1>Something went wrong<br>\nTried to get : themes/${myTheme}/${filename}`;
+			}
+
+			// fs.readFile(`${__dirname}/themes/${myTheme}/${filename}`, "binary", function (err, file) {
+			// 	if (err) {
+			// 		console.log("file found")
+			// 		ctx.status = 404;
+			// 		ctx.body = `<h1>File not available</h1>Something went wrong<br>\nTried to get : themes/${myTheme}/${filename}`;
+			// 		return;
+			// 	} else {
+			// 		console.log("file not found");
+			// 	}
+			// 	ctx.type = mimeType;
+			// 	ctx.body = file;
+			// });
 		}
-		ctx.type = mimeType;
-		ctx.body = file;
-		});
-		}
-		}
-		}
-		
-		export default Routes;
-		
+	}
+}
+
+export default Routes;

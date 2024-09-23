@@ -17,6 +17,7 @@ const routes = new Routes();
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 app.use(serve(__dirname + '/res',{ prefix: '/res' }));
+app.use(serve('themes'));
 app.keys = ['your-secret-key'];
 app.use(session(app));
 app.use(logger());
@@ -58,9 +59,10 @@ router.get('/', async (ctx) => {
 await routes.index(ctx);
 });
 
+// Serve static files from the 'themes' directory
 router.get('/themes/:theme/:file', async (ctx) => {
-await routes.themes(ctx);
-});
+  await routes.themes(ctx);
+  });
 
 router.get('/settheme/:theme', async (ctx) => {
 await routes.setTheme(ctx);
