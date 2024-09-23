@@ -1,60 +1,108 @@
-import express from 'express';
+import Koa from 'koa';
+import Router from 'koa-router';
+import bodyParser from 'koa-bodyparser';
+import session from 'koa-session';
+import serve from 'koa-static';
+import path from 'path';
+import passport from 'koa-passport';
+import LocalStrategy from 'passport-local';
 import Routes from './routes.js';
-import session from 'express-session';
-import path from 'path'
-import { json, urlencoded } from 'express';
-import cookieParser from 'cookie-parser';
-import morgan from 'morgan';
+import bcrypt from 'bcrypt';
+import logger from 'koa-logger';
 
-const app = express();
+const app = new Koa();
+const router = new Router();
 const routes = new Routes();
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
-app.use(session({
-  secret: 'your-secret-key',
-  resave: false,
-  saveUninitialized: false
+app.use(serve(__dirname + '/res',{ prefix: '/res' }));
+app.keys = ['your-secret-key'];
+app.use(session(app));
+app.use(logger());
+//app.use(serve(path.join(__dirname, 'res')));
+app.use(bodyParser());
+
+// Passport configuration
+passport.use(new LocalStrategy(async (username, password, done) => {
+const user = await routes.findUser(username);
+if (!user) {
+return done(null, false, { message: 'Incorrect username.' });
+}
+const isValid = await bcrypt.compare(password, user.password);
+if (!isValid) {
+return done(null, false, { message: 'Incorrect password.' });
+}
+return done(null, user);
 }));
-app.use(morgan('dev'));
-app.use('/res',express.static(__dirname + '/res/'));
-//app.use(express.urlencoded({ extended: true }));
-app.use(json());
-app.use(urlencoded({ extended: true }));
-app.use(cookieParser());
-app.get('/favicon.ico', (req, res) => res.status(204));
 
-// Main page
-app.get('/', (req, res) => routes.index(req, res));
+passport.serializeUser((user, done) => {
+done(null, user.username);
+});
 
-// Change the active theme
-app.get('/themes/:theme/:file', (req, res) => routes.themes(req, res));
-//app.use(express.favicon());
+passport.deserializeUser(async (username, done) => {
+const user = await routes.findUser(username);
+done(null, user);
+});
 
-// For demo purpose, anyone can change the theme
-app.get('/settheme/:theme', (req, res) => routes.setTheme(req, res));
+app.use(passport.initialize());
+app.use(passport.session());
 
-// Show the register form
-app.get('/register', (req, res) => routes.registerForm(req, res));
+// Routes
+router.get('/favicon.ico', (ctx) => {
+ctx.status = 204;
+});
 
-// Process the register form
-app.post('/register', (req, res) => routes.registerUser(req, res));
+router.get('/', async (ctx) => {
+  console.log("hi world")
+await routes.index(ctx);
+});
 
-// Process login form
-app.post('/login', (req, res) => routes.loginUser(req, res));
-//app.get('/login', (req, res) => routes.loginUser(req, res));
+router.get('/themes/:theme/:file', async (ctx) => {
+await routes.themes(ctx);
+});
 
-// Process logoff request
-app.get('/logoff', (req, res) => routes.logoffUser(req, res));
+router.get('/settheme/:theme', async (ctx) => {
+await routes.setTheme(ctx);
+});
 
-// Show a list of users
-app.get('/people', (req, res) => routes.listUsers(req, res));
+router.get('/register', async (ctx) => {
+await routes.registerForm(ctx);
+});
 
-// Show individual profile for now routes to people list
-app.get('/profile', (req, res) => routes.listUsers(req, res));
+router.post('/register', async (ctx) => {
+await routes.registerUser(ctx);
+});
+
+router.post('/login', async (ctx, next) => {
+return passport.authenticate('local', (err, user, info) => {
+if (user) {
+ctx.login(user);
+ctx.redirect('/protected');
+} else {
+ctx.status = 401;
+ctx.body = info.message;
+}
+})(ctx, next);
+});
+
+router.get('/logoff', (ctx) => {
+ctx.logout();
+ctx.body = 'Logged out';
+});
+
+router.get('/people', async (ctx) => {
+await routes.listUsers(ctx);
+});
+
+router.get('/profile', async (ctx) => {
+await routes.listUsers(ctx);
+});
+
+app.use(router.routes()).use(router.allowedMethods());
 
 // Start the server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+console.log(`Server is running on port ${port}`);
 });
