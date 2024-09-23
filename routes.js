@@ -19,6 +19,7 @@ class Routes {
 	}
 
 	async index(ctx) {
+
 		try {
 			ctx.session.visitCount = ctx.session.visitCount ? ctx.session.visitCount + 1 : 1;
 			console.log(ctx.session.visitCount);
@@ -273,137 +274,79 @@ class Routes {
 
 		const confirmationCode = FormHelper.getRandomString();
 		userInfo['confirm'] = confirmationCode;
-
-	}
-
-	async oldregisterUser(req, res) {
-		const userInfo = {};
-
-		const userFields = {
-			'firstname': 'name',
-			'lastname': 'name',
-			'email': 'email',
-			'login': 'username',
-			'password': 'password'
-		};
-
-		for (const field in userFields) {
-			const fieldType = userFields[field];
-			const fieldValue = req.body[field] || '';
-			console.log(field + " " + fieldType + " " + fieldValue)
-			switch (fieldType) {
-				case 'name':
-				case 'password':
-				case 'string':
-					userInfo[field] = fieldValue;
-					break;
-				case 'number':
-					const isValidNumber = FormHelper.isNumber(fieldValue);
-					if (isValidNumber) {
-						userInfo[field] = fieldValue;
-					}
-					break;
-				case 'username':
-					const isValidUsername = FormHelper.isUsername(fieldValue);
-					if (isValidUsername) {
-						userInfo[field] = fieldValue;
-					}
-					break;
-				case 'email':
-					const isValidEmail = FormHelper.isEmail(fieldValue);
-					if (isValidEmail) {
-						userInfo[field] = fieldValue;
-					}
-					break;
-			}
-		}
-
-		const confirmationCode = FormHelper.getRandomString();
-		userInfo['confirm'] = confirmationCode;
-
+		
 		if (userInfo['email'] && userInfo['login'] && userInfo['firstname'] && userInfo['lastname'] && userInfo['password'].length > 5) {
-			console.log("adding user");
-			myuser.addUser({ login: userInfo['login'], email: userInfo['email'], firstname: userInfo['firstname'], lastname: userInfo['lastname'], password: userInfo['password'], confirm: userInfo['confirm'] },
-				() => {
-					this.showRegisterSuccess(req, res, req.body);
-					console.log("success in add");
-				},
-				() => {
-					this.showForm(req, res, req.body);
-				}
-			);
-		} else {
-			console.log("Failed validation");
+		console.log("adding user");
+		myuser.addUser({ login: userInfo['login'], email: userInfo['email'], firstname: userInfo['firstname'], lastname: userInfo['lastname'], password: userInfo['password'], confirm: userInfo['confirm'] },
+		async () => {
+		await this.showRegisterSuccess(ctx, ctx.request.body);
+		console.log("success in add");
+		},
+		async () => {
+		await this.showForm(ctx, ctx.request.body);
 		}
-	}
-
-	/** function registerForm 
-	 * this function shows a form to register a new user
-	 */
-	async registerForm(req, res) {
+		);
+		} else {
+		console.log("Failed validation");
+		await this.showForm(ctx, ctx.request.body);
+		}
+		}
+		
+		async registerForm(ctx) {
 		try {
-
-			const userInfo = {};
-			this.showForm(req, res, userInfo);
-
+		const userInfo = {};
+		await this.showForm(ctx, userInfo);
 		} catch (error) {
-			console.error("Error occurred in registerForm route:", error);
-			// Handle error
+		console.error("Error occurred in registerForm route:", error);
+		// Handle error
 		}
-	}
-
-	/** function settheme
-	 * this function changes the current theme - obviously this is open for demo purposes
-	 */
-	setTheme(req, res) {
-		if (templateHelper.activeThemes.hasOwnProperty(req.params.theme)) {
-			templateHelper.setTheme(req.params.theme);
 		}
-		this.index(req, res);
-	}
-
-	// Static method to serve static files
-	async themes(req, res) {
+		
+		setTheme(ctx) {
+		if (templateHelper.activeThemes.hasOwnProperty(ctx.params.theme)) {
+		templateHelper.setTheme(ctx.params.theme);
+		}
+		this.index(ctx);
+		}
+		
+		async themes(ctx) {
 		const extensions = {
-			'txt': 'text/plain',
-			'swf': 'application/x-shockwave-flash',
-			'jpg': 'image/jpeg',
-			'gif': 'image/gif',
-			'png': 'image/png',
-			'jpeg': 'image/jpeg',
-			'css': 'text/css',
-			'js': 'text/javascript'
+		'txt': 'text/plain',
+		'swf': 'application/x-shockwave-flash',
+		'jpg': 'image/jpeg',
+		'gif': 'image/gif',
+		'png': 'image/png',
+		'jpeg': 'image/jpeg',
+		'css': 'text/css',
+		'js': 'text/javascript'
 		};
-
+		
 		let myTheme;
-		if (templateHelper.activeThemes.hasOwnProperty(req.params.theme)) {
-			myTheme = req.params.theme;
+		if (templateHelper.activeThemes.hasOwnProperty(ctx.params.theme)) {
+		myTheme = ctx.params.theme;
 		} else {
-			res.end('<h1>File not available</h1>Something went wrong');
-			return;
+		ctx.body = '<h1>File not available</h1>Something went wrong';
+		return;
 		}
-
-		const filename = req.params.file;
+		
+		const filename = ctx.params.file;
 		const fileExtension = filename.split('.').pop();
-		console.log(fileExtension) + " " + filename + "\n"
+		console.log(fileExtension + " " + filename + "\n");
 		const mimeType = extensions[fileExtension];
-
+		
 		if (mimeType) {
-			fs.readFile(`themes/${myTheme}/${filename}`, "binary", function (err, file) {
-				if (err) {
-					res.writeHead(404, { "Content-Type": "text/html" });
-					res.end(`<h1>File not available</h1>Something went wrong<br>\nTried to get : themes/${myTheme}/${filename}`);
-					return;
-				}
-				res.writeHead(200, { "Content-Type": mimeType });
-				res.end(file, "binary");
-			});
+		fs.readFile(`themes/${myTheme}/${filename}`, "binary", function(err, file) {
+		if (err) {
+		ctx.status = 404;
+		ctx.body = `<h1>File not available</h1>Something went wrong<br>\nTried to get : themes/${myTheme}/${filename}`;
+		return;
 		}
-	}
-
-
-
-
-}
-
-export default Routes
+		ctx.type = mimeType;
+		ctx.body = file;
+		});
+		}
+		}
+		}
+		
+		export default Routes;
+		
