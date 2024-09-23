@@ -1,27 +1,31 @@
 {
-  "name": "express-auth-app",
-  "version": "0.0.4",
-  "description": "A basic Express application with authentication and form handling",
-  "main": "app.js",
+  "name": "koa-passport-app",
+  "version": "1.0.0",
+  "description": "A Koa app with Passport authentication",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node index.js"
   },
-  "type": "module",
+  "keywords": [
+    "koa",
+    "passport",
+    "authentication"
+  ],
+  "author": "Youn Elan",
+  "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.20.3",
-    "cookie": "0.7.1",
-    "cookie-parser": "1.4.6",
-    "express": "4.21.0",
-    "express-session": "1.18.0",
-    "mongoose": "^8.3.5",
-    "morgan": "^1.10.0",
-    "passport": "^0.7.0",
-    "passport-local": "^1.0.0",
-    "pug": "^3.0.3",
-    "qs": "6.13.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.0"
+    "koa": "2.15.3",
+    "koa-static":"5.0.0",
+    "koa-router":"13.0.1",
+    "koa-session":"6.4.0",
+    "koa-logger":"",
+    "koa-bodyparser": "4.4.1",
+    "koa-passport": "6.0.0",
+    "passport": "0.7.0",
+    "passport-local": "1.0.0" ,
+    "mongoose": "8.3.5",
+    "morgan": "1.10.0",
+    "pug": "3.0.3"
+
   }
 }
