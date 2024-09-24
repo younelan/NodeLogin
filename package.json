@@ -14,18 +14,19 @@
   "author": "Youn Elan",
   "license": "MIT",
   "dependencies": {
+    "@types/koa-static": "^4.0.4",
     "koa": "2.15.3",
-    "koa-static":"5.0.0",
-    "koa-router":"13.0.1",
-    "koa-session":"6.4.0",
-    "koa-logger":"",
     "koa-bodyparser": "4.4.1",
+    "koa-logger": "",
+    "koa-mount": "^4.0.0",
     "koa-passport": "6.0.0",
-    "passport": "0.7.0",
-    "passport-local": "1.0.0" ,
+    "koa-router": "13.0.1",
+    "koa-session": "6.4.0",
+    "koa-static": "^5.0.0",
     "mongoose": "8.3.5",
     "morgan": "1.10.0",
+    "passport": "0.7.0",
+    "passport-local": "1.0.0",
     "pug": "3.0.3"
-
   }
 }
