@@ -2,7 +2,10 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 import session from 'koa-session';
+import mount from 'koa-mount';
 import serve from 'koa-static';
+//const mount = require('koa-mount');
+
 import path from 'path';
 import passport from 'koa-passport';
 import LocalStrategy from 'passport-local';
@@ -14,14 +17,19 @@ const app = new Koa();
 const router = new Router();
 const routes = new Routes();
 
+
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
-app.use(serve(__dirname + '/res',{ prefix: '/res' }));
-app.use(serve('themes'));
+// Serve static files from the 'res' directory
+
+console.log(path.join(__dirname, 'res/'));
+
+//app.use(mount(path.join(__dirname, 'res/')));
+app.use(mount('/res', serve(path.join(__dirname, 'res'))));
+
 app.keys = ['your-secret-key'];
 app.use(session(app));
 app.use(logger());
-//app.use(serve(path.join(__dirname, 'res')));
 app.use(bodyParser());
 
 // Passport configuration
