@@ -1,15 +1,15 @@
 # Node Login Demo
 -----------------
-This is a Simple Password protected demo of a **node.js** password protected Member Zone.
+This is a Simple Password protected **demo** of a **node.js** password protected Member Zone.
 
 This is by no means complete but should give you an idea to get started with form submission, validation, themes, mongoose mongo access, sessions and authentication
 
 - If you have a single theme, you probably wanna use something like pug 
 
 ## Highlights:
-- uses express
+- uses koa 
 - has a basic themes
-- authenticates using montoeg and mongoose
+- authenticates using passport and mongoose
 - rudimentary theme engine (basic string replace)
 - Shows how to create a simple member zone, storing the users in mongo db. 
 - features a buggy falling blocks game that is available if you are logged in to demonstrate a member only page
