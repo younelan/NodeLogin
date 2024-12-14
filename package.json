@@ -15,6 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/koa-static": "^4.0.4",
+    "bcrypt": "^5.1.1",
     "koa": "2.15.3",
     "koa-bodyparser": "4.4.1",
     "koa-logger": "",
@@ -23,7 +24,7 @@
     "koa-router": "13.0.1",
     "koa-session": "6.4.0",
     "koa-static": "^5.0.0",
-    "mongoose": "8.3.5",
+    "mongoose": "^8.9.1",
     "morgan": "1.10.0",
     "passport": "0.7.0",
     "passport-local": "1.0.0",
