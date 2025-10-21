@@ -112,7 +112,11 @@ await routes.listUsers(ctx);
 app.use(router.routes()).use(router.allowedMethods());
 
 // Start the server
-const port = process.env.PORT || 3000;
+let port = process.env.PORT || 4000;
+const portIndex = process.argv.indexOf('-p');
+if (portIndex > -1) {
+  port = process.argv[portIndex + 1];
+}
 app.listen(port, () => {
 console.log(`Server is running on port ${port}`);
 });
