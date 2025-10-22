@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A Koa app with Passport authentication",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js"
   },
