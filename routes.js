@@ -6,6 +6,7 @@ const myuser = new MongoUser();
 
 import templateHelper from './template_helper.js';
 import FormHelper from './form_helper.js';
+import bcrypt from 'bcryptjs';
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
@@ -277,7 +278,9 @@ class Routes {
 
 		if (userInfo['email'] && userInfo['login'] && userInfo['firstname'] && userInfo['lastname'] && userInfo['password'].length > 5) {
 			console.log("adding user");
-			myuser.addUser({ login: userInfo['login'], email: userInfo['email'], firstname: userInfo['firstname'], lastname: userInfo['lastname'], password: userInfo['password'], confirm: userInfo['confirm'] },
+			// hash the password before saving
+			const hashed = bcrypt.hashSync(userInfo['password'], 10);
+			myuser.addUser({ login: userInfo['login'], email: userInfo['email'], firstname: userInfo['firstname'], lastname: userInfo['lastname'], password: hashed, confirm: userInfo['confirm'] },
 				async () => {
 					await this.showRegisterSuccess(ctx, ctx.request.body);
 					console.log("success in add");

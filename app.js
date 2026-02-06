@@ -10,7 +10,7 @@ import path from 'path';
 import passport from 'koa-passport';
 import LocalStrategy from 'passport-local';
 import Routes from './routes.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import logger from 'koa-logger';
 
 const app = new Koa();
@@ -38,7 +38,7 @@ const user = await routes.findUser(username);
 if (!user) {
 return done(null, false, { message: 'Incorrect username.' });
 }
-const isValid = await bcrypt.compare(password, user.password);
+const isValid = bcrypt.compareSync(password, user.password);
 if (!isValid) {
 return done(null, false, { message: 'Incorrect password.' });
 }
