@@ -1,5 +1,8 @@
 # Logs
 logs
+tmp
+.agents
+.claude
 *.log
 npm-debug.log*
 
