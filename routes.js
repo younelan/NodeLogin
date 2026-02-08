@@ -50,12 +50,12 @@ class Routes {
 					}
 					return sidebar2;
 				})(),
-				themepath: '/themes/' + templateHelper.currentTheme,
+				themepath: '/themes/' + (ctx.session.theme || templateHelper.currentTheme),
 				site_name: SiteConfig.site_name,
 				site_motto: SiteConfig.site_motto,
 			};
 
-			const view = templateHelper.render('themes/' + templateHelper.currentTheme + '/index.tpl', myvars);
+			const view = templateHelper.render('themes/' + (ctx.session.theme || templateHelper.currentTheme) + '/index.tpl', myvars);
 			ctx.body = view;
 		} catch (error) {
 			console.error("Error occurred in showLogin route:", error);
@@ -78,12 +78,12 @@ class Routes {
 					}
 					return sidebar2;
 				})(),
-				themepath: '/themes/' + templateHelper.currentTheme,
+				themepath: '/themes/' + (ctx.session.theme || templateHelper.currentTheme),
 				site_name: SiteConfig.site_name,
 				site_motto: SiteConfig.site_motto,
 			};
 
-			const view = templateHelper.render('themes/' + templateHelper.currentTheme + '/index.tpl', myvars);
+			const view = templateHelper.render('themes/' + (ctx.session.theme || templateHelper.currentTheme) + '/index.tpl', myvars);
 			ctx.body = view;
 		} catch (error) {
 			console.error("Error occurred in showForm route:", error);
@@ -107,12 +107,12 @@ class Routes {
 					}
 					return sidebar2;
 				})(),
-				themepath: '/themes/' + templateHelper.currentTheme,
+				themepath: '/themes/' + (ctx.session.theme || templateHelper.currentTheme),
 				site_name: SiteConfig.site_name,
 				site_motto: SiteConfig.site_motto,
 			};
 
-			const view = templateHelper.render('themes/' + templateHelper.currentTheme + '/index.tpl', myvars);
+			const view = templateHelper.render('themes/' + (ctx.session.theme || templateHelper.currentTheme) + '/index.tpl', myvars);
 			ctx.body = view;
 		} catch (error) {
 			console.error("Error occurred in showMemberArea route:", error);
@@ -134,12 +134,12 @@ class Routes {
 					}
 					return sidebar2;
 				})(),
-				themepath: '/themes/' + templateHelper.currentTheme,
+				themepath: '/themes/' + (ctx.session.theme || templateHelper.currentTheme),
 				site_name: SiteConfig.site_name,
 				site_motto: SiteConfig.site_motto,
 			};
 
-			const view = templateHelper.render('themes/' + templateHelper.currentTheme + '/index.tpl', myvars);
+			const view = templateHelper.render('themes/' + (ctx.session.theme || templateHelper.currentTheme) + '/index.tpl', myvars);
 			ctx.body = view;
 		} catch (error) {
 			console.error("Error occurred in showRegisterSuccess route:", error);
@@ -163,12 +163,12 @@ class Routes {
 					}
 					return sidebar2;
 				})(),
-				themepath: '/themes/' + templateHelper.currentTheme,
+				themepath: '/themes/' + (ctx.session.theme || templateHelper.currentTheme),
 				site_name: SiteConfig.site_name,
 				site_motto: SiteConfig.site_motto,
 			};
 
-			const view = templateHelper.render('themes/' + templateHelper.currentTheme + '/index.tpl', myvars);
+			const view = templateHelper.render('themes/' + (ctx.session.theme || templateHelper.currentTheme) + '/index.tpl', myvars);
 			ctx.body = view;
 		} catch (error) {
 			console.error("Error occurred in showPage route:", error);
@@ -307,7 +307,7 @@ class Routes {
 
 	setTheme(ctx) {
 		if (templateHelper.activeThemes.hasOwnProperty(ctx.params.theme)) {
-			templateHelper.setTheme(ctx.params.theme);
+			ctx.session.theme = ctx.params.theme;
 		}
 		this.index(ctx);
 	}
